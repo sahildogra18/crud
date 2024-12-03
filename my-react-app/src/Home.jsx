@@ -2,22 +2,21 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import EmployeesData from "./EmployeesData";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+function getLocalItems() {
+  const storedData = localStorage.getItem("Visca el Barca");
+  return storedData ? JSON.parse(storedData) : EmployeesData;
+}
 function Home() {
-  let [data, setData] = useState([]);
+  let [data, setData] = useState(getLocalItems());
   let [firstname, setFirstname] = useState("Leo");
   let [lastname, setlastname] = useState("Messi");
   let [age, setAge] = useState(35);
   let [id, setId] = useState(0);
-  let [isUpdate, setIsUpdate] = useState(false);
-
-  useEffect(() => {
-    setData(EmployeesData);
-  }, []);
+  let [update, isUpdate] = useState(0);
 
   let handleEdit = (id) => {
     let dt = data.filter((item) => item.id === id);
-    setIsUpdate(true);
+    console.log(dt);
     setFirstname(dt[0].firstName);
     setlastname(dt[0].lastName);
     setAge(dt[0].age);
@@ -26,6 +25,7 @@ function Home() {
 
   let handleDelete = (id) => {
     let dt = data.filter((item) => item.id !== id);
+    console.log(dt);
     setData(dt);
   };
 
@@ -51,12 +51,28 @@ function Home() {
     }
   }
 
+  useEffect(() => {
+    localStorage.setItem("Visca el Barca", JSON.stringify(data));
+  }, [data]);
+
+  useEffect(() => {
+    EmployeesData;
+  }, []);
+
+  function handleSave(id) {
+    let dt = dt.filter((item) => item.id === id);
+    console.log(dt);
+    firstname(dt[0].firstName);
+    lastname(dt[0].lastName);
+    age(dt[0].age);
+  }
   function handleUpdate() {
     let index = data
       .map((item) => {
         return item.id;
       })
       .indexOf(id);
+
     let dt = [...data];
     dt[index].firstName = firstname;
     dt[index].lastName = lastname;
@@ -117,7 +133,7 @@ function Home() {
         {!isUpdate ? (
           <button
             onClick={() => {
-              handleSave();
+              handleSave(item.id);
             }}
             className="btn btn-primary"
           >

@@ -1,7 +1,7 @@
 let EmployeesData = [
   {
     id: 1,
-    firstName: "Mark-Andre",
+    firstName: "Mark",
     lastName: "Terstagen",
     age: 31,
   },
